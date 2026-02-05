@@ -1,6 +1,9 @@
 package in.iasst.projectGEMC.entities;
 
 import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +17,7 @@ public class Contract extends Timestamp{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int contractId;
 	private String gemNo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate contractDate;
 	@ManyToOne
 	private User buyerName;
@@ -22,7 +26,7 @@ public class Contract extends Timestamp{
 	private float amount;
 	private int quantity;
 	private String itemDetails;
-	private String intender;
+	private String indenter;
 	private String sourceOfFund;
 	private String projectName;
 	private String eFileNo;
@@ -42,7 +46,7 @@ public class Contract extends Timestamp{
 	}
 
 	public Contract(int contractId, String gemNo, LocalDate contractDate, User buyerName, String sellerName,
-			String accountDetails, float amount, int quantity, String itemDetails, String intender, String sourceOfFund,
+			String accountDetails, float amount, int quantity, String itemDetails, String indenter, String sourceOfFund,
 			String projectName, String eFileNo, String pur_req_putupBy, String orderStatus, User consigneeName,
 			User paymentAuth, ConsigneeDetails consigneeDetails, PaymentDetails paymentDetails) {
 		super();
@@ -55,7 +59,7 @@ public class Contract extends Timestamp{
 		this.amount = amount;
 		this.quantity = quantity;
 		this.itemDetails = itemDetails;
-		this.intender = intender;
+		this.indenter = indenter;
 		this.sourceOfFund = sourceOfFund;
 		this.projectName = projectName;
 		this.eFileNo = eFileNo;
@@ -139,12 +143,12 @@ public class Contract extends Timestamp{
 		this.itemDetails = iteamDetails;
 	}
 
-	public String getIntender() {
-		return intender;
+	public String getIndenter() {
+		return indenter;
 	}
 
-	public void setIntender(String intender) {
-		this.intender = intender;
+	public void setIndenter(String indenter) {
+		this.indenter = indenter;
 	}
 
 	public String getSourceOfFund() {
@@ -224,8 +228,8 @@ public class Contract extends Timestamp{
 	public String toString() {
 		return "Contract [contractId=" + contractId + ", gemNo=" + gemNo + ", contractDate=" + contractDate
 				+ ", buyerName=" + buyerName + ", sellerName=" + sellerName + ", accountDetails=" + accountDetails
-				+ ", amount=" + amount + ", quantity=" + quantity + ", itemDetails=" + itemDetails + ", intender="
-				+ intender + ", sourceOfFund=" + sourceOfFund + ", projectName=" + projectName + ", eFileNo=" + eFileNo
+				+ ", amount=" + amount + ", quantity=" + quantity + ", itemDetails=" + itemDetails + ", indenter="
+				+ indenter + ", sourceOfFund=" + sourceOfFund + ", projectName=" + projectName + ", eFileNo=" + eFileNo
 				+ ", pur_req_putupBy=" + pur_req_putupBy + ", orderStatus=" + orderStatus + ", consigneeName="
 				+ consigneeName + ", paymentAuth=" + paymentAuth + ", consigneeDetails=" + consigneeDetails
 				+ ", paymentDetails=" + paymentDetails + "]";

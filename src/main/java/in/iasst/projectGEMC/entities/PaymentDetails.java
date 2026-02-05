@@ -2,6 +2,8 @@ package in.iasst.projectGEMC.entities;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ public class PaymentDetails extends Timestamp{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate paymentDate;
 	private String paymentInfo;
 	@OneToOne

@@ -2,6 +2,8 @@ package in.iasst.projectGEMC.entities;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,13 +15,16 @@ public class ConsigneeDetails extends Timestamp{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate deliveryDate;
 	private boolean goodAcceptanceStatus;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate cracGenDate;
 	private int recieptQuantity;
 	private int aceptedQuantity;
 	private int rejectedQuantity;
 	private String invoiceNo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate invoiceDate;
 	private float billAmount;
 	@OneToOne
