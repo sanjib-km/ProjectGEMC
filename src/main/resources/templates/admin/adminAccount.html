@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Admin - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home">Dashboard</a>
+        <a href="/account" active>Account</a>
+    </nav>
+    <div class="container">
+        <div class="card-header" style="border-radius: 8px 8px 0 0;">
+            <h3>Your Profile</h3>
+        </div>
+        <div class="card" style="padding: 20px; border-top: none;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: bold; width: 20%;">Name</td>
+                        <td>:</td>
+                        <td th:text="${user.name}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Username</td>
+                        <td>:</td>
+                        <td th:text="${user.userName}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Role</td>
+                        <td>:</td>
+                        <td th:text="${user.role}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <a th:href="@{/admin/edit/{id}(id=${user.userid})}"><button>Edit Profile</button></a>
+                <a href="/logout"><button class="btn-secondary">Logout</button></a>
+            </div>
+        </div>
+    </div>
+    <footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script th:inline="javascript" th:if="${message}">
+    	alert([[${message}]]);
+	</script>
+</body>
+</html>

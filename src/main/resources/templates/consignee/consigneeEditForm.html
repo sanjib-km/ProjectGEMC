@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Consignee Details - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home">Pending</a>
+        <a href="/history" active>History</a>
+        <a href="/account">Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-header">
+                <h3 style="margin: 0;">Contract Reference: <span th:text="${contract.gemNo}"></span></h3>
+            </div>
+            <div style="padding: 20px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Contract Date:</strong> <span th:text="${contract.contractDate}"></span></p>
+                        <p><strong>Buyer Name:</strong> <span th:text="${contract.buyerName.name}"></span></p>
+                        <p><strong>Seller Name:</strong> <span th:text="${contract.sellerName}"></span></p>
+                        <p><strong>Amount:</strong> ₹<span th:text="${contract.amount}"></span></p>
+                        <p><strong>Quantity:</strong> <span th:text="${contract.quantity}"></span></p>
+                        <p><strong>Order Status:</strong> 
+                            <span th:switch="${contract.orderStatus}">
+                                <span th:case="'Accepted'">Accepted by Seller</span>
+                                <span th:case="'Rejected'">Rejected by Seller</span>
+                                <span th:case="'Cancelled'">Cancelled by Buyer</span>
+                                <span th:case="*">Status Unknown</span>
+                            </span>
+                        </p>
+                        <p><strong>Account Details:</strong> <span th:text="${contract.accountDetails}"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Item Details:</strong> <span th:text="${contract.itemDetails}"></span></p>
+                        <p><strong>Intender:</strong> <span th:text="${contract.intender}"></span></p>
+                        <p><strong>Source of Fund:</strong> <span th:text="${contract.sourceOfFund}"></span></p>
+                        <p><strong>Project Name:</strong> <span th:text="${contract.projectName}"></span></p>
+                        <p><strong>eFile No:</strong> <span th:text="${contract.eFileNo}"></span></p>
+                        <p><strong>Purchase Requested By:</strong> <span th:text="${contract.pur_req_putupBy}"></span></p>
+                        <p><strong>Consignee Assigned:</strong> <span th:text="${contract.consigneeName.name}"></span></p>
+                    </div>
+              </div>
+              <!-- div class="row">
+                  <div class="col-md-12">
+                      <p><strong>Account Details:</strong> <span th:text="${contract.accountDetails}"></span></p>
+                  </div> 
+              </div>-->
+            </div>
+        </div>
+        
+
+        <div class="card">
+            <div class="card-header">
+                <h3 style="margin:0;">Edit Consignee Details</h3>
+            </div>
+            <div style="padding: 20px;">
+                <form th:action="@{/consignee/update-details}" method="post" th:object="${contract}">
+                    
+                    <input type="hidden" th:field="*{contractId}" />
+                    <input type="hidden" th:field="*{consigneeDetails.id}" />
+                
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Delivery Date</label>
+                            <input type="date" th:field="*{consigneeDetails.deliveryDate}" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Good Acceptance Status</label>
+                            <div style="padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <input type="radio" th:field="*{consigneeDetails.goodAcceptanceStatus}" th:value="true" required/> Accepted &nbsp;&nbsp;
+                                <input type="radio" th:field="*{consigneeDetails.goodAcceptanceStatus}" th:value="false" required/> Rejected
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>CRAC Generation Date</label>
+                            <input type="date" th:field="*{consigneeDetails.cracGenDate}" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Invoice Number</label>
+                            <input type="text" th:field="*{consigneeDetails.invoiceNo}" required/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Receipt Quantity</label>
+                            <input type="number" id="receiptQty" th:field="*{consigneeDetails.recieptQuantity}" min="0" oninput="validateQuantities()" required/>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Accepted Quantity</label>
+                            <input type="number" id="acceptedQty" th:field="*{consigneeDetails.aceptedQuantity}" min="0" oninput="validateQuantities()" required/>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Rejected Quantity</label>
+                            <input type="number" id="rejectedQty" th:field="*{consigneeDetails.rejectedQuantity}" min="0" readonly style="background: #eee;"/>
+                        </div>
+                    </div>
+                    <div id="error-msg" class="error-msg" style="margin-bottom: 15px;"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Invoice Date</label>
+                            <input type="date" th:field="*{consigneeDetails.invoiceDate}" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Bill Amount (₹)</label>
+                            <input type="number" step="0.01" th:field="*{consigneeDetails.billAmount}" required/>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <button type="reset" class="btn-secondary">Reset Changes</button>
+                        <button type="submit" id="submitBtn">Update Consignee Details</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script>
+        function validateQuantities() {
+            const receipt = parseFloat(document.getElementById('receiptQty').value) || 0;
+            const accepted = parseFloat(document.getElementById('acceptedQty').value) || 0;
+            const submitBtn = document.getElementById('submitBtn');
+            const rejectedField = document.getElementById('rejectedQty');
+            const errorDiv = document.getElementById('error-msg');
+
+            if (accepted <= receipt) {
+                rejectedField.value = receipt - accepted;
+                errorDiv.innerText = "";
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+            } else {
+                errorDiv.innerText = "Accepted quantity cannot be more than receipt!";
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.5";
+                rejectedField.value = 0;
+            }
+        }
+        
+        // Run once on load to populate rejected quantity
+        window.onload = validateQuantities;
+    </script>
+    <script th:inline="javascript" th:if="${message}">
+        alert([[${message}]]);
+    </script>
+</body>
+</html>

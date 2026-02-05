@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Buyer - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view" active>View Contracts</a>
+        <a href="/home">Add Contract</a>
+        <a href="/history">History</a>
+        <a href="/account">Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card-header" style="border-radius: 8px 8px 0 0; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Contract Search</h2>
+        </div>
+
+        <form th:action="@{/search}" method="get" id="searchForm" class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Search by GEMC No:</label>
+                    <input type="text" id="gemNo" name="gemNo" placeholder="Ex: GEMC-12345" oninput="clearDates()" />
+                </div>
+                <div class="col-md-6">
+                    <label>Search by Date Range:</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="date" id="startDate" name="startDate" oninput="clearGemNo()" />
+                        <span>to</span>
+                        <input type="date" id="endDate" name="endDate" oninput="clearGemNo()" />
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <button type="submit">Search</button>
+                <a th:href="@{/search}"><button type="button" class="btn-secondary">Clear</button></a>
+            </div>
+        </form>
+
+        <hr>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>GEMC No</th>
+                    <th>Contract Date</th>
+                    <th>Buyer</th>
+                    <th>Seller</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${contracts}">
+                    <td th:text="${c.gemNo}"></td>
+                    <td th:text="${#temporals.format(c.contractDate, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${c.buyerName.name}"></td>
+                    <td th:text="${c.sellerName}"></td>
+                    <td th:text="${c.amount != null ? #numbers.formatDecimal(c.amount, 1, 'COMMA', 2, 'POINT') : '0.00'}"></td>
+                    <td>
+                        <a th:href="@{/contract/view/{id}(id=${c.contractId})}">
+                            <button type="button">View</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${totalPages > 0}" class="pagination-wrapper">
+            <hr>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                <a th:if="${currentPage > 0}" 
+                   th:href="${status == 'search'} ? @{/search(page=${currentPage - 1}, gemNo=${gemNo}, startDate=${startDate}, endDate=${endDate})} : @{/view(page=${currentPage - 1})}">
+                   <button class="btn-secondary">Previous</button>
+                </a>
+                
+                <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
+
+                <a th:if="${currentPage < totalPages - 1}" 
+                   th:href="${status == 'search'} ? @{/search(page=${currentPage + 1}, gemNo=${gemNo}, startDate=${startDate}, endDate=${endDate})} : @{/view(page=${currentPage + 1})}">
+                   <button class="btn-secondary">Next</button>
+                </a>
+            </div>
+        </div>
+    </div>
+	<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script>
+        function clearDates() {
+            const gemInput = document.getElementById('gemNo');
+            if (gemInput.value.trim() !== "") {
+                document.getElementById('startDate').value = "";
+                document.getElementById('endDate').value = "";
+            }
+        }
+
+        function clearGemNo() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            if (startDate !== "" || endDate !== "") {
+                document.getElementById('gemNo').value = "";
+            }
+        }
+    </script>
+    <script th:inline="javascript" th:if="${message}">
+    	alert([[${message}]]);
+	</script>
+</body>
+</html>
