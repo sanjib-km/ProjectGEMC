@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Admin - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home">Dashboard</a>
+        <a href="/account" active>Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 style="margin: 0;">Edit Admin Info</h2>
+            </div>
+            
+            <div style="padding: 20px;">
+                <form th:action="@{/admin/users/save}" th:object="${user}" method="POST">
+                    
+                    <input type="hidden" name="token" th:value="${token}">
+                    <input type="hidden" th:field="*{userid}">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Full Name</label>
+                            <input type="text" th:field="*{name}" placeholder="Enter the name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>System Role</label>
+                            <select th:field="*{role}" style="background-color: #eee;" required>
+                                <option th:value="*{role}">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Username</label>
+                            <input type="text" th:field="*{userName}" placeholder="Enter username" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Password</label>
+                            <input type="password" th:field="*{password}" placeholder="Set a new password" required>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <a href="/account" style="text-decoration: none;">
+                            <button type="button" class="btn-secondary" style="margin-right: 10px;">Cancel</button>
+                        </a>
+                        <button type="submit" onclick="return confirm('Confirm profile updates?');">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script th:inline="javascript" th:if="${message}">
+        alert([[${message}]]);
+    </script>
+</body>
+</html>

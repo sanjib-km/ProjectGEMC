@@ -1,0 +1,228 @@
+/* General Layout */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --light-bg: #f4f7f6;
+    --border-color: #dcdde1;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: #333;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+/* Navigation */
+nav {
+    background-color: var(--primary-color);
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+nav a:hover, nav a[active] {
+    background-color: var(--accent-color);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #fff;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+table thead {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+table thead tr:hover {
+    background-color: inherit !important; /* Forces the header to keep its background */
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1; /* Or your preferred hover color */
+}
+
+
+/* Forms & Inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* This ensures all text-based inputs behave exactly the same */
+input[type="text"], 
+input[type="password"]{
+	width: 100% !important;   /* Forces full width of the container */
+    height: 40px;             /* Forces identical height */
+    padding: 10px !important; /* Forces identical inner spacing */
+    box-sizing: border-box !important; /* Crucial: includes padding in the width */
+    font-family: sans-serif;  /* Prevents password font from changing box size */
+    margin-bottom: 15px;      /* Standard spacing between fields */
+    border: 1px solid #dcdde1;
+    border-radius: 4px;
+    display: block;
+}
+input[type="date"], 
+input[type="number"], 
+select, 
+textarea { 
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;   /* Ensures password dots don't change the size */
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Buttons */
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+button[type="submit"], .btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+button[type="reset"], .btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Add this to your style.css */
+button.btn-danger, 
+button[onclick*="delete"] {
+    background-color: #e74c3c; /* A professional red */
+    color: white;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+button.btn-danger:hover, 
+button[onclick*="delete"]:hover {
+    background-color: #c0392b; /* A darker red on hover */
+}
+
+/* Specific UI Elements */
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px;
+}
+
+.error-msg {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+}
+
+.msg {
+    color: var(--success-color);
+}
+
+/* Responsive Grid for Home Pages */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.col-md-4 { flex: 1; min-width: 250px; }
+.col-md-6 { flex: 1; min-width: 300px; }
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+}
+
+/* Footer Styling */
+footer {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 25px 0;
+    margin-top: auto; /* Keeps footer at bottom of the viewport */
+    width: 100%;
+    border-top: 3px solid var(--accent-color); /* Matches your nav accent */
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center; /* Centers all text and links */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Adds space between copyright and developer name */
+}
+
+.developer-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.developer-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3);
+}

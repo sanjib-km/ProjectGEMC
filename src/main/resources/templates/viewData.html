@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>View Data - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/view">View Contracts</a>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-header">
+                <h3 style="margin: 0;">Contract Info: <span th:text="${contract.gemNo}"></span></h3>
+            </div>
+            <div style="padding: 20px;">
+                <table class="detail-table">
+                    <tr>
+                        <td style="font-weight: bold; width: 30%;">Contract Date</td>
+                        <td th:text="${contract.contractDate}"></td>
+                        <td style="font-weight: bold; width: 30%;">Order Status</td>
+                        <td>
+                            <span th:switch="${contract.orderStatus}">
+                                <span th:case="'Accepted'" style="color: var(--success-color); font-weight: bold;">Accepted by Seller</span>
+                                <span th:case="'Rejected'" style="color: var(--danger-color); font-weight: bold;">Rejected by Seller</span>
+                                <span th:case="'Cancelled'" style="color: var(--danger-color); font-weight: bold;">Cancelled by Buyer</span>
+                                <span th:case="*">Status Unknown</span> 
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Buyer</td>
+                        <td th:text="${contract.buyerName.name}"></td>
+                        <td style="font-weight: bold;">Seller</td>
+                        <td th:text="${contract.sellerName}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Amount</td>
+                        <td th:text="'₹' + ${contract.amount}"></td>
+                        <td style="font-weight: bold;">Quantity</td>
+                        <td th:text="${contract.quantity}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Item Details</td>
+                        <td th:text="${contract.itemDetails}"></td>
+                        <td style="font-weight: bold;">Intender</td>
+                        <td th:text="${contract.intender}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Source of Fund</td>
+                        <td th:text="${contract.sourceOfFund}"></td>
+                        <td style="font-weight: bold;">Project Name</td>
+                        <td th:text="${contract.projectName != null && contract.projectName != '' ? contract.projectName : 'N/A'}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">eFile No</td>
+                        <td th:text="${contract.eFileNo}"></td>
+                        <td style="font-weight: bold;">Requested By</td>
+                        <td th:text="${contract.pur_req_putupBy}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Consignee Name</td>
+                        <td colspan="3" th:text="${contract.consigneeName.name}"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Account Details</td>
+                        <td colspan="3" th:text="${contract.accountDetails}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 style="margin: 0;">Consignee Details</h4>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div th:if="${contract.consigneeDetails != null}">
+                            <table class="detail-table">
+                                <tr><td><strong>Delivery Date</strong></td><td th:text="${contract.consigneeDetails.deliveryDate}"></td></tr>
+                                <tr>
+                                    <td><strong>Status</strong></td>
+                                    <td>
+                                        <span th:switch="${contract.consigneeDetails.goodAcceptanceStatus}">
+                                            <span th:case="true" style="color: var(--success-color);">Accepted</span>
+                                            <span th:case="false" style="color: var(--danger-color);">Rejected</span>
+                                            <span th:case="*">Unknown</span> 
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr><td><strong>CRAC Date</strong></td><td th:text="${contract.consigneeDetails.cracGenDate}"></td></tr>
+                                <tr><td><strong>Receipt Qty</strong></td><td th:text="${contract.consigneeDetails.recieptQuantity}"></td></tr>
+                                <tr><td><strong>Accepted Qty</strong></td><td th:text="${contract.consigneeDetails.aceptedQuantity}"></td></tr>
+                                <tr><td><strong>Rejected Qty</strong></td><td th:text="${contract.consigneeDetails.rejectedQuantity}"></td></tr>
+                                <tr><td><strong>Invoice No</strong></td><td th:text="${contract.consigneeDetails.invoiceNo}"></td></tr>
+                                <tr><td><strong>Invoice Date</strong></td><td th:text="${contract.consigneeDetails.invoiceDate}"></td></tr>
+                                <tr><td><strong>Bill Amount</strong></td><td th:text="'₹' + ${contract.consigneeDetails.billAmount}"></td></tr>
+                            </table>
+                        </div>
+                        <div th:unless="${contract.consigneeDetails != null}" style="text-align: center; color: #777;">
+                            <p>Consignee details are pending.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 style="margin: 0;">Payment Details</h4>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div th:if="${contract.paymentDetails != null}">
+                            <table class="detail-table">
+                                <tr>
+                                    <td style="width: 40%;"><strong>Payment Date</strong></td>
+                                    <td th:text="${contract.paymentDetails.paymentDate}"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Payment Info</strong></td>
+                                    <td th:text="${contract.paymentDetails.paymentInfo}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div th:unless="${contract.paymentDetails != null}" style="text-align: center; color: #777;">
+                            <p>Payment details are pending.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button onclick="window.history.back()" class="btn-secondary">Go Back</button>
+            <button onclick="window.print()">Print Details</button>
+        </div>
+    </div>
+	
+    <style>
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .detail-table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</body>
+</html>

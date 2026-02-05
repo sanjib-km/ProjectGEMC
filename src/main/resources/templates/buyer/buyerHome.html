@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Add Contract - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home" active>Add Contract</a>
+        <a href="/history">History</a>
+        <a href="/account">Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="margin:0;">Contract Details Entry</h3>
+            </div>
+            <div style="padding: 20px;">
+                <form th:action="@{/addContract}" method="POST">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>GEMC Number</label>
+                            <input type="text" name="gemNo" placeholder="GEMC/..." required>
+                            <span th:text="${errorMsg}" class="error-msg"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Contract Date</label>
+                            <input type="date" name="contractDate" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Buyer Name</label>
+                            <input type="text" th:value="${user.name}" readonly style="background: #eee;">
+                            <input type="hidden" th:value="${user.userid}" name="buyerName">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Seller Name</label>
+                            <input type="text" name="sellerName" required>
+                        </div>
+                    </div>
+					
+					<label>Account Details</label>
+                    <textarea name="accountDetails" rows="3" required></textarea>
+                    <!--  <div class="row">
+                        <div class="col-md-12">
+                            <label>Account Details</label>
+                            <textarea name="accountDetails" rows="3" required></textarea>
+                        </div>
+                    </div>-->
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Amount</label>
+                            <input type="number" step="0.01" name="amount" placeholder="0.00" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Quantity</label>
+                            <input type="number" name="quantity" placeholder="0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Order Status</label>
+                            <select name="orderStatus" required>
+                                <option value="">-- Select --</option>
+                                <option value="Accepted">Accepted by Seller</option>
+                                <option value="Rejected">Rejected by Seller</option>
+                                <option value="Cancelled">Cancelled by Buyer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Item Details</label>
+                            <input type="text" name="itemDetails" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Intender</label>
+                            <input type="text" name="intender" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Source of Fund</label>
+                            <select name="sourceOfFund" id="sourceOfFund" required>
+                                <option value="">-- Select --</option>
+                                <option value="project">Project</option>
+                                <option value="core">Core</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Project Name</label>
+                            <input type="text" id="projectName" name="projectName" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>e-File No</label>
+                            <input type="text" name="eFileNo" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Purchase Request Put up By</label>
+                            <input type="text" name="pur_req_putupBy" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Consignee Name</label>
+                            <select name="consigneeName" required>
+                                <option value="">-- Select Consignee --</option>
+                                <option th:each="consignee : ${consignees}" 
+                                        th:value="${consignee.userid}" 
+                                        th:text="${consignee.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <button type="reset" class="btn-secondary" style="margin-right: 10px;">Clear Form</button>
+                        <button type="submit" onclick="return confirm('Are you sure you want to save these changes?');">Save Contract</button>
+                    </div>
+
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+	<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script>
+        const sourceSelect = document.getElementById('sourceOfFund');
+        const projectInput = document.getElementById('projectName');
+
+        function toggleProjectInput() {
+            if (sourceSelect.value === 'core') {
+                projectInput.disabled = true;
+                projectInput.value = '';
+                projectInput.style.backgroundColor = '#eee';
+            } else {
+                projectInput.disabled = false;
+                projectInput.style.backgroundColor = '#fff';
+            }
+        }
+
+        sourceSelect.addEventListener('change', toggleProjectInput);
+        window.addEventListener('load', toggleProjectInput);
+    </script>
+    
+    <script th:inline="javascript" th:if="${message}">
+        alert([[${message}]]);
+    </script>
+</body>
+</html>

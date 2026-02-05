@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Manage Users - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home" active>Dashboard</a>
+        <a href="/account" >Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card-header" style="border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">System Users</h2>
+            <a href="/admin/users/new">
+                <button type="button" style="background-color: var(--success-color);">+ Add New User</button>
+            </a>
+        </div>
+
+        <div th:if="${users == null or #lists.isEmpty(users)}" style="text-align: center; padding: 40px; background: white; border-radius: 8px;">
+            <h4 style="color: #777;">No users found in the system.</h4>
+        </div>
+
+        <div th:if="${users != null and !#lists.isEmpty(users)}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${users}">
+                        <td th:text="${u.name}" style="font-weight: bold;"></td>
+                        <td th:text="${u.userName}"></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span th:id="'passText' + ${u.userid}" style="display:none; font-family: monospace;" th:text="${u.password}"></span>
+                                <span th:id="'passDots' + ${u.userid}" style="letter-spacing: 2px;">••••••••</span>
+                                
+                                <button type="button" class="btn-secondary" style="padding: 2px 8px; font-size: 0.8rem;" 
+                                        th:onclick="'toggleTablePassword(' + ${u.userid} + ')'">
+                                    Show/Hide
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <span style="text-transform: capitalize;" th:text="${u.role}"></span>
+                        </td>
+                        <td style="text-align: center;">
+                            <a th:href="@{/admin/users/edit/{id}(id=${u.userid})}">
+                                <button type="button">Edit</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+	<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script>
+    function toggleTablePassword(userId) {
+        const text = document.getElementById('passText' + userId);
+        const dots = document.getElementById('passDots' + userId);
+        
+        if (text.style.display === "none") {
+            text.style.display = "inline";
+            dots.style.display = "none";
+        } else {
+            text.style.display = "none";
+            dots.style.display = "inline";
+        }
+    }
+    </script>
+    <script th:inline="javascript" th:if="${message}">
+        alert([[${message}]]);
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard - GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home" active>Dashboard</a>
+        <a href="/account">Account</a>
+    </nav>
+    <div class="container" style="text-align: center; padding-top: 50px;">
+        <h2>Administrative Control Panel</h2>
+        <div class="row" style="justify-content: center; margin-top: 30px;">
+            <div class="col-md-4 card" style="padding: 30px;">
+                <h4>Contract Management</h4>
+                <p>Review, search, or remove contracts from the system.</p>
+                <a href="/view"><button style="width: 100%;">Manage Contracts</button></a>
+            </div>
+            <div class="col-md-4 card" style="padding: 30px;">
+                <h4>User Management</h4>
+                <p>Add or update system users and roles.</p>
+                <a href="/manage-users"><button style="width: 100%;">Manage Users</button></a>
+            </div>
+        </div>
+    </div>
+    <footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+	</footer>
+    <script th:inline="javascript" th:if="${message}">
+    	alert([[${message}]]);
+	</script>
+</body>
+</html>

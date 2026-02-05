@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>Home - Project GEMC</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body class="bg-light">
+        <nav>
+            <a href="/home" active>Home</a>
+            <a href="/view">View Contracts</a>
+            <a href="/map-login">Login</a>
+        </nav>
+
+        <div class="container">
+            <div class="card-header" style="border-radius: 8px 8px 0 0; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Contract Search</h2>
+            </div>
+
+            <form th:action="@{/search}" method="get" id="searchForm" class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Search by GEMC No:</label>
+                        <input type="text" id="gemNo" name="gemNo" placeholder="Ex: GEMC-12345" oninput="clearDates()" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Search by Date Range:</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="date" id="startDate" name="startDate" oninput="clearGemNo()" />
+                            <span>to</span>
+                            <input type="date" id="endDate" name="endDate" oninput="clearGemNo()" />
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button type="submit">Search</button>
+                    <a th:href="@{/search}"><button type="button" class="btn-secondary">Clear</button></a>
+                </div>
+            </form>
+
+            <hr>
+            
+            <div style="text-align: center; padding: 20px;">
+                <p>Explore the full database of procurement records.</p>
+                <a href="/view"><button style="padding: 12px 24px;">View All Contracts</button></a>
+            </div>
+        </div>
+
+		<footer>
+		    <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+		</footer>
+
+        <script>
+            function clearDates() {
+                const gemInput = document.getElementById('gemNo');
+                if (gemInput.value.trim() !== "") {
+                    document.getElementById('startDate').value = "";
+                    document.getElementById('endDate').value = "";
+                }
+            }
+
+            function clearGemNo() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                if (startDate !== "" || endDate !== "") {
+                    document.getElementById('gemNo').value = "";
+                }
+            }
+        </script>
+
+        <script th:inline="javascript" th:if="${message}">
+            alert([[${message}]]);
+        </script>
+    </body>
+</html>
