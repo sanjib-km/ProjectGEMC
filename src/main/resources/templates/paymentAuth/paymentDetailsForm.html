@@ -8,10 +8,10 @@
 <body class="bg-light">
     <nav>
         <a href="/view">View Contracts</a>
-        <a th:if="${contract.paymentDetails == null}" href="/home" active>Pending</a>
-		<a th:unless="${contract.paymentDetails == null}" href="/home">Pending</a>
-		<a th:if="${contract.paymentDetails != null}" href="/history" active>History</a>
-		<a th:unless="${contract.paymentDetails != null}" href="/history">History</a>
+        <a th:if="${contract.paymentDetails.empty}" href="/home" active>Pending</a>
+		<a th:unless="${contract.paymentDetails.empty}" href="/home">Pending</a>
+		<a th:if="${!contract.paymentDetails.empty}" href="/history" active>History</a>
+		<a th:unless="${!contract.paymentDetails.empty}" href="/history">History</a>
         <a href="/account">Account</a>
     </nav>
 
@@ -89,37 +89,86 @@
                 </div>
             </div>
         </div>
-
+		
         <div class="card">
-            <div class="card-header">
-                <h3 style="margin: 0;">Process Payment</h3>
-            </div>
-            <div style="padding: 20px;">
-                <form th:action="@{/payment_details/save-details}" method="post" th:object="${paymentDetails}">
-                    
-                    <input type="hidden" th:field="${contract.contractId}" required/>
-                    <input type="hidden" th:field="*{id}" required/>
-                
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Payment / Delivery Date</label>
-                            <input type="date" th:field="*{paymentDate}" required />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Payment Information (Ref No / Remarks)</label>
-                            <input type="text" th:field="*{paymentInfo}" placeholder="Enter transaction reference" required/>
-                        </div>
-                    </div>
-
-                    <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
-                        <button type="reset" class="btn-secondary" style="margin-right: 10px;">Reset Form</button>
-                        
-                        <button th:if="${contract.paymentDetails != null}" type="submit">Update Payment Details</button>
-                        <button th:unless="${contract.paymentDetails != null}" type="submit">Submit Payment Details</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+		    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+		        <h3 style="margin: 0;">Update/Add Payment Details</h3>
+		        <button type="button" class="btn-secondary" onclick="addPaymentRow()">+ Add New Row</button>
+		    </div>
+		    <div style="padding: 20px;">
+		        <form th:action="@{/payment_details/save-details}" method="post" th:object="${contract}">
+		            <input type="hidden" th:field="*{contractId}" />
+		        
+		            <div id="payment-container">
+		                <div th:each="detail, stat : *{paymentDetails}" class="payment-row card p-3 mb-3" style="background: #fdfdfd; border-left: 5px solid #007bff;">
+		                    <h5 class="text-primary">Payment #<span th:text="${stat.count}"></span> (Existing)</h5>
+		                    
+		                    <input type="hidden" th:field="*{paymentDetails[__${stat.index}__].id}" />
+		                    
+		                    <div class="row">
+		                        <div class="col-md-5">
+		                            <label>Payment Date</label>
+		                            <input type="date" class="form-control" 
+		                                   th:field="*{paymentDetails[__${stat.index}__].paymentDate}" required />
+		                        </div>
+		                        <div class="col-md-5">
+		                            <label>Payment Information</label>
+		                            <input type="text" class="form-control" 
+		                                   th:field="*{paymentDetails[__${stat.index}__].paymentInfo}" required />
+		                        </div>
+		                        <div class="col-md-2">
+						            <label style="display: block;">&nbsp;</label> 
+						            <button type="button" class="btn-danger" onclick="removeRow(this)" 
+						                    style="width: 100%; height: 38px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+						                Remove
+						            </button>
+						        </div>
+		                    </div>
+		                </div>
+		            </div>
+		
+		            <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+		                <button type="reset" class="btn-secondary">Reset Changes</button>
+		                <button type="submit" class="btn-primary">Save All Changes</button>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		<script>
+			function addPaymentRow() {
+			    const container = document.getElementById('payment-container');
+			    const index = container.getElementsByClassName('payment-row').length;
+	
+			    const rowHtml = `
+			        <div class="payment-row card p-3 mb-3" style="background: #fff; border-left: 5px solid #28a745;">
+			            <h5 class="text-success">New Payment Entry</h5>
+			            <div class="row">
+			                <div class="col-md-5">
+			                    <label>Payment Date</label>
+			                    <input type="date" name="paymentDetails[${index}].paymentDate" class="form-control" required />
+			                </div>
+			                <div class="col-md-5">
+			                    <label>Payment Information</label>
+			                    <input type="text" name="paymentDetails[${index}].paymentInfo" class="form-control" placeholder="Ref No / Remarks" required />
+			                </div>
+			                <div class="col-md-2">
+			                <label style="display: block;">&nbsp;</label> 
+			                <button type="button" class="btn-danger" onclick="removeRow(this)" 
+			                        style="width: 100%; height: 38px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+			                    Remove
+			                </button>
+			            </div>
+			            </div>
+			        </div>`;
+			    
+			    container.insertAdjacentHTML('beforeend', rowHtml);
+			}
+	
+			function removeRow(button) {
+			    // Removes the card element
+			    button.closest('.payment-row').remove();
+			}
+		</script>
     </div>
 	<footer>
 		    <div class="footer-content">

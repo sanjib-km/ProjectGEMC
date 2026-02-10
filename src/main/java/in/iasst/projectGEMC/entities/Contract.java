@@ -1,6 +1,7 @@
 package in.iasst.projectGEMC.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 @Entity
 public class Contract extends Timestamp{
@@ -38,8 +40,8 @@ public class Contract extends Timestamp{
 	private User paymentAuth;
 	@OneToOne(cascade = CascadeType.ALL)
 	private ConsigneeDetails consigneeDetails;
-	@OneToOne(cascade = CascadeType.ALL)
-	private PaymentDetails paymentDetails;
+	@OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PaymentDetails> paymentDetails;
 
 	public Contract() {
 		
@@ -48,7 +50,7 @@ public class Contract extends Timestamp{
 	public Contract(int contractId, String gemNo, LocalDate contractDate, User buyerName, String sellerName,
 			String accountDetails, float amount, int quantity, String itemDetails, String indenter, String sourceOfFund,
 			String projectName, String eFileNo, String pur_req_putupBy, String orderStatus, User consigneeName,
-			User paymentAuth, ConsigneeDetails consigneeDetails, PaymentDetails paymentDetails) {
+			User paymentAuth, ConsigneeDetails consigneeDetails, List<PaymentDetails> paymentDetails) {
 		super();
 		this.contractId = contractId;
 		this.gemNo = gemNo;
@@ -199,14 +201,13 @@ public class Contract extends Timestamp{
 		this.consigneeDetails = consigneeDetails;
 	}
 
-	public PaymentDetails getPaymentDetails() {
+	public List<PaymentDetails> getPaymentDetails() {
 		return paymentDetails;
 	}
 
-	public void setPaymentDetails(PaymentDetails paymentDetails) {
+	public void setPaymentDetails(List<PaymentDetails> paymentDetails) {
 		this.paymentDetails = paymentDetails;
 	}
-
 
 	public User getConsigneeName() {
 		return consigneeName;

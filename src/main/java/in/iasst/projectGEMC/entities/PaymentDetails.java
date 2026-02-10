@@ -8,8 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
 @Entity
 public class PaymentDetails extends Timestamp{
 	@Id
@@ -18,7 +18,7 @@ public class PaymentDetails extends Timestamp{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate paymentDate;
 	private String paymentInfo;
-	@OneToOne
+	@ManyToOne
 	private Contract contract;
 
 	public PaymentDetails() {
