@@ -43,11 +43,6 @@ public class ContractServicesImplementation implements ContractServices {
 		return contract_repo.findAll();
 	}
 
-//	@Override
-//	public List<Contract> findByGemNoOrDateRange(String searchGemNo, LocalDate startDate, LocalDate endDate) {
-//		
-//		return contract_repo.findByGemNoOrDateRange(searchGemNo, startDate, endDate);
-//	}
 	public Page<Contract> findByGemNoOrDateRange(String gemNo, LocalDate start, LocalDate end, Pageable pageable) {
 	    return contract_repo.findByGemNoOrDateRange(gemNo, start, end, pageable);
 	}

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
+import java.util.List;
 
 import in.iasst.projectGEMC.entities.Contract;
 import in.iasst.projectGEMC.entities.User;
@@ -36,4 +37,7 @@ public interface ContractRepository extends JpaRepository<Contract, Integer>{
     Page<Contract> findByConsigneeNameAndConsigneeDetailsIsNull(User user, Pageable pageable);
  // For PaymentAuth: Pending where payment is NULL but consignee details are NOT NULL
     Page<Contract> findByPaymentDetailsIsNullAndConsigneeDetailsIsNotNull(User user, Pageable pageable);
+
+    List<Contract> findBycontractDateBetween(LocalDate start, LocalDate end);
+    
 }

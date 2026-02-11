@@ -195,5 +195,5 @@ public class ContractController {
 		ra.addFlashAttribute("message", "Unauthorised!");
 		return "redirect:/logout";	
 	}
-
+	
 }

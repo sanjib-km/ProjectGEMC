@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Export Data - Project GEMC</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+    <nav>
+        <a href="/view">View Contracts</a>
+        <a href="/home" active>Dashboard</a>
+        <a href="/account">Account</a>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <h3 style="margin: 0;">Export All Records</h3>
+            </div>
+            <div style="padding: 30px; text-align: center;">
+                <p>Download the complete database of contract records in Excel format.</p>
+                <a th:href="@{/export/excel}">
+                    <button type="button" style="padding: 12px 30px;">Export All Data (Excel)</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 style="margin: 0;">Export by Date Range</h3>
+            </div>
+            <div style="padding: 20px;">
+                <form th:action="@{/export/excel}" method="get">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Start Date</label>
+                            <input type="date" name="startDate" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>End Date</label>
+                            <input type="date" name="endDate" required>
+                        </div>
+                    </div>
+                    <div style="text-align: right; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <button type="submit" class="btn-primary">Download Filtered Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-content">
+		        <p style="margin: 0;">&copy; 2026 Project GEMC. All Rights Reserved.</p>
+		        <p style="margin: 0;">Developed by: 
+		            <a href="https://sanjibkumarmalakar.netlify.app/" target="_blank" class="developer-link">
+		                Mr. Sanjib Kumar Malakar
+		            </a>
+		        </p>
+		    </div>
+		 </div>
+    </footer>
+</body>
+</html>
