@@ -77,8 +77,6 @@ public class PaymentDetailsController {
             
             // 4. Save the fully populated existing contract
             contract_services.saveContract(existingContract);
-            System.out.print(existingContract.getPaymentDetails().size());
-            System.out.print(existingContract.getPaymentAuth().getUserName());
         }
         
         ra.addFlashAttribute("message", "Details saved successfully!");
