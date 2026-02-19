@@ -128,7 +128,7 @@ public class NavController {
 	    User user = user_services.findByUserName(username);
 
 	    if (user == null) {
-	        return "redirect:/map-login";
+	        return "redirect:/logout";
 	    }
 
 	    Pageable pageable = PageRequest.of(page, 20, Sort.by("contractId").descending());
@@ -174,7 +174,7 @@ public class NavController {
 		model.addAttribute("user",user);
 		
 		if(user==null) {
-			return "redirect:/map-login";
+			return "redirect:/logout";
 		}
 		else if(user.getRole().equals("buyer")) {
 			return "buyer/buyerAccount";

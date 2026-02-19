@@ -45,7 +45,7 @@ public class ContractExportController {
     		return "admin/export-page";
     	}
     	ra.addFlashAttribute("message", "Unauthorised!");
-    	return "redirect:/home";
+    	return "redirect:/logout";
 	}
 
     
@@ -79,7 +79,7 @@ public class ContractExportController {
                     .body(new InputStreamResource(in));
         }
     	return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Error: You are not authorized to export data.");
+                .body("Error: You are not authorised to export data.");
     }
         
 }

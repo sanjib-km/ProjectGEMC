@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,22 +36,19 @@ public class UserController {
 				session.setAttribute("userName", userName);
 				return "redirect:/home";
 			}
-			else {
-				ra.addFlashAttribute("message", "Invalid Username or Password");
-				return "redirect:/map-login";
-				}
 		}
-		else {
-			ra.addFlashAttribute("message", "Invalid Username or Password");
-			return "redirect:/map-login";
-		}
+		ra.addFlashAttribute("message", "Invalid Username or Password");
+		return "redirect:/map-login?invalid=true";
 	}
 	
 	
-	@GetMapping("/logout")
+	@RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
 	public String userLogout(HttpSession session) {
-		session.removeAttribute("userName");
-		return "login";
+		if (session != null) {
+			session.removeAttribute("userName");
+	        session.invalidate();
+	    }
+		return "redirect:/map-login?logout=true";
 	}
 	
 	

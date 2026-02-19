@@ -35,3 +35,4 @@ build/
 .env
 
 logs/
+logs/project_gemc_log.log

@@ -38,7 +38,9 @@
             </table>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <a th:href="@{/admin/edit/{id}(id=${user.userid})}"><button>Edit Profile</button></a>
-                <a href="/logout"><button class="btn-secondary">Logout</button></a>
+                <form action="/logout" method="post">
+                	<button type="submit" class="btn-danger">Logout</button>
+                </form>
             </div>
         </div>
     </div>
