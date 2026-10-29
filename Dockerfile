@@ -18,7 +18,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /projectGEMC
 
 # Copy only the compiled JAR file from the build stage
-COPY --from=build /app/target/*.jar projectGEMC.jar
+COPY --from=build /projectGEMC/target/*.jar projectGEMC.jar
 
 # Render or other platforms use dynamic ports, but 8080 is standard
 EXPOSE 8081
