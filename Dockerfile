@@ -21,7 +21,7 @@ WORKDIR /projectGEMC
 COPY --from=build /projectGEMC/target/*.jar projectGEMC.jar
 
 # Render or other platforms use dynamic ports, but 8080 is standard
-EXPOSE 8081
+EXPOSE 8080
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "projectGEMC.jar"]
